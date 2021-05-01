@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1659570893c3634ee33d",
+    "revision": "ada94037672467ca137e",
     "url": "/css/app.5a0b3bda.css"
   },
   {
@@ -88,12 +88,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/tennis.3606de5a.jpg"
   },
   {
-    "revision": "8a7bfda712afbc6a053150293bb754ce",
+    "revision": "27da4c7954b7cccbdcc443460a31ef8c",
     "url": "/index.html"
   },
   {
-    "revision": "1659570893c3634ee33d",
-    "url": "/js/app.74ce30a1.js"
+    "revision": "ada94037672467ca137e",
+    "url": "/js/app.de74a0ce.js"
   },
   {
     "revision": "b1ea8970644f46939409",
@@ -102,10 +102,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "8053c376f8b79799be8f13c1cb8d7f0d",
     "url": "/manifest.json"
-  },
-  {
-    "revision": "a52b82cbf9c794f1e093a64da93fea06",
-    "url": "/media/coins.a52b82cb.mp3"
   },
   {
     "revision": "7410b82f395acb06404446efff445691",
