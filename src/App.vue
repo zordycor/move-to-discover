@@ -1089,7 +1089,7 @@ export default {
     font-weight: 800;
     font-size: 30px;
     margin-top: 50px;
-    min-width: 450px;
+    min-width: 350px;
     cursor: pointer;
 
     &.asignaturas {
