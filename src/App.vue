@@ -64,12 +64,12 @@
         <b-progress
           v-if="!solucion.length"
           style="width: 400px"
-          :value="7 - tiempoPista"
-          :max="7"
+          :value="11 - tiempoPista"
+          :max="11"
           variant="success"
           show-progress
         >
-          <b-progress-bar :value="7 - tiempoPista">
+          <b-progress-bar :value="11 - tiempoPista">
             <span><strong>{{tiempoPista}}</strong></span>
           </b-progress-bar>
         </b-progress>
@@ -124,7 +124,7 @@ export default {
   },
   watch: {
     textoJuego() {
-      this.tiempoEjercicio = 3;
+      this.tiempoEjercicio = 10;
       const contadorInterval = setInterval(() => {
         this.tiempoEjercicio -= 1;
         if (this.tiempoEjercicio === 0 || this.solucion.length) {
@@ -134,7 +134,7 @@ export default {
     },
     tiempoEjercicio(valor) {
       if (valor < 1) {
-        this.tiempoPista = 2;
+        this.tiempoPista = 10;
         const contadorPistaInterval = setInterval(() => {
           this.tiempoPista -= 1;
           if (this.tiempoPista === 0 || this.solucion.length) {
