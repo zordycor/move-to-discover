@@ -1081,7 +1081,7 @@ export default {
   }
 
   button {
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: 'Chilanka', cursive;
     border-radius: 5px;
     background: pink;
     border: 2px solid #D44697;
