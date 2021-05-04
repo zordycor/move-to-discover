@@ -146,20 +146,21 @@ export default {
     tiempoPista(valor) {
       if (valor < 1) {
         this.contadorFaseJuego += 1;
-        this[`cambioJuego${this.temas[this.contadorTema]}`](this.contadorJuego, this.contadorFaseJuego);
+        this[this.cambioJuegoTemas[this.contadorTema]](this.contadorJuego, this.contadorFaseJuego);
       }
     },
   },
   computed: {
-    temas() {
-      return {
-        1: 'Cors',
-        2: 'Vida',
-        3: 'Esser',
-        4: 'Natural',
-        5: 'Material',
-        6: 'Maquina',
-      };
+    cambioJuegoTemas() {
+      return [
+        '',
+        'cambioJuegoCos',
+        'cambioJuegoVida',
+        'cambioJuegoEsser',
+        'cambioJuegoNatural',
+        'cambioJuegoMaterial',
+        'cambioJuegoMaquina',
+      ];
     },
   },
   methods: {
@@ -265,7 +266,7 @@ export default {
       }
     },
     cambioJuegoNatural(numero = 1, faseJuego = 1) {
-      this.contadorTema = 3;
+      this.contadorTema = 4;
       this.titulo = '4. LA NATURALESSA';
       this.contadorJuego = numero;
       this.contadorFaseJuego = faseJuego;
@@ -288,7 +289,7 @@ export default {
       }
     },
     cambioJuegoMaterial(numero = 1, faseJuego = 1) {
-      this.contadorTema = 3;
+      this.contadorTema = 5;
       this.titulo = '5. AMB MATERIALS I AMB ENERGIA!';
       this.contadorJuego = numero;
       this.contadorFaseJuego = faseJuego;
@@ -311,7 +312,7 @@ export default {
       }
     },
     cambioJuegoMaquina(numero = 1, faseJuego = 1) {
-      this.contadorTema = 3;
+      this.contadorTema = 6;
       this.titulo = '6. QUINA MÁQUINA!';
       this.contadorJuego = numero;
       this.contadorFaseJuego = faseJuego;
@@ -345,7 +346,7 @@ export default {
       this.mensaje = '';
       this.contadorFaseJuego = 1;
       this.contadorJuego += 1;
-      this[`cambioJuego${this.temas[this.contadorTema]}`](this.contadorJuego, this.contadorFaseJuego);
+      this[this.cambioJuegoTemas[this.contadorTema]](this.contadorJuego, this.contadorFaseJuego);
     },
     juegoCos1(faseJuego) {
       switch (faseJuego) {
@@ -1019,7 +1020,7 @@ export default {
 <style lang="scss">
 
 #app {
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-family: 'Chilanka', cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
