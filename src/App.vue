@@ -1,48 +1,54 @@
 <template>
   <div id="app">
     <div v-if="inicio && !asignaturas && !naturales && !juego && !felicidades" class="home">
-      <img src="https://www.fillmurray.com/100/100" alt="logo app">
-      Move to Discover
-      <button @click="goAsignaturas">EMPEZAMOS!</button>
-      <audio style="margin-top: 100px;" controls>
-        <source src="./assets/song.mp3" type="audio/mpeg" autoplay>
-        Your browser does not support the audio element.
-      </audio>
+      <img :src="require('@/assets/logo.jpg')">
+      <button @click="goAsignaturas" style="margin-top: 50px;">¡COMENCEM!</button>
     </div>
     <div v-if="!inicio && asignaturas && !naturales && !juego" class="lista-asignaturas">
-      <img src="https://www.fillmurray.com/100/100" alt="logo app">
-      Move to Discover
-      <button @click="goNaturales" class="asignaturas naturales">
-        CIENCIAS NATURALES
+      <img :src="require('@/assets/logo.jpg')">
+      <button @click="goNaturales" class="asignaturas naturales" style="margin-top: 50px;">
+        CIÈNCIES NATURALS
       </button>
-      <button class="asignaturas sociales">CIENCIAS SOCIALES</button>
-      <button class="asignaturas mates">MATEMÁTICAS</button>
-      <button class="asignaturas caste">LENGUA CASTELLANA</button>
-      <button class="asignaturas ingles">INGLÉS</button>
+      <button class="asignaturas sociales">
+        CIÈNCIES SOCIALS
+        <img :src="require('@/assets/candado.svg')">
+      </button>
+      <button class="asignaturas mates">
+        MATEMÁTIQUES
+        <img :src="require('@/assets/candado.svg')">
+      </button>
+      <button class="asignaturas caste">
+        LLENGUA CASTELLANA
+        <img :src="require('@/assets/candado.svg')">
+      </button>
+      <button class="asignaturas ingles">
+        INGLÉS
+        <img :src="require('@/assets/candado.svg')">
+      </button>
     </div>
     <div
       v-if="!inicio && !asignaturas && naturales && !juego && !felicidades"
       class="tema-naturales"
     >
       <button @click="goNaturales" class="asignaturas naturales" style="diplay: inline-block;">
-        CIENCIAS NATURALES
+        CIÈNCIES NATURALS
       </button>
-      <p style="color: forestgreen" @click="cambioTema(1)">
+      <p style="color: #538135" @click="cambioTema(1)">
         1. EL NOSTRE COS
       </p>
-      <p style="color: green" @click="cambioTema(2)">
+      <p style="color: #4b7430" @click="cambioTema(2)">
         2. VISCA LA VIDA SALUDABLE!
       </p>
-      <p style="color: lightgreen" @click="cambioTema(3)">
+      <p style="color: #42672a" @click="cambioTema(3)">
         3. OBSERVEM ELS ÉSSERS VIUS
       </p>
-      <p style="color: darkgreen" @click="cambioTema(4)">
+      <p style="color: #3a5a25" @click="cambioTema(4)">
         4. LA NATURALESA
       </p>
-      <p style="color: green" @click="cambioTema(5)">
+      <p style="color: #324d20" @click="cambioTema(5)">
         5. AMB MATERIALS I AMB ENERGIA!
       </p>
-      <p style="color: lightgreen" @click="cambioTema(6)">
+      <p style="color: #2a411b" @click="cambioTema(6)">
         6. QUINA MÀQUINA!
       </p>
     </div>
@@ -54,8 +60,9 @@
       <img
         v-if="textoJuego.includes('?') || solucion.length"
         :src="require(`@/assets/${imagen}`)"
+        class="img-solucion"
       >
-      <p class="texto-juego">{{textoJuego}}</p>
+      <p v-if="textoJuego" class="texto-juego">{{textoJuego}}</p>
       <div v-if="tiempoEjercicio < 1" class="pista-bloque">
         <div v-if="numeroPista.length" class="pista-texto">
           <div class="titulo">{{numeroPista}}</div>
@@ -63,34 +70,51 @@
         </div>
         <b-progress
           v-if="!solucion.length"
-          style="width: 400px"
-          :value="11 - tiempoPista"
-          :max="11"
+          :value="3 - tiempoPista"
+          :max="3"
           variant="success"
           show-progress
         >
-          <b-progress-bar :value="11 - tiempoPista">
+          <b-progress-bar :value="3 - tiempoPista">
             <span><strong>{{tiempoPista}}</strong></span>
           </b-progress-bar>
         </b-progress>
       </div>
       <div v-if="tiempoEjercicio > 0 && !solucion.length" class="counter">
         <b-progress
-          style="width: 400px"
-          :max="11"
+          :max="3"
           variant="success"
           show-progress
         >
-          <b-progress-bar class="progress-bar" :value="11 - tiempoEjercicio">
+          <b-progress-bar class="progress-bar" :value="3 - tiempoEjercicio">
             <span><strong>{{tiempoEjercicio}}</strong></span>
           </b-progress-bar>
         </b-progress>
       </div>
-      <p @click="siguienteJuego()">{{mensaje}}</p>
+      <p>{{mensaje}}</p>
+      <b-progress
+        v-if="solucion.length"
+        :max="20"
+        variant="success"
+        show-progress
+        >
+          <b-progress-bar class="progress-bar" :value="20 - tiempoSolucion">
+            <span><strong>{{tiempoSolucion}}</strong></span>
+          </b-progress-bar>
+        </b-progress>
     </div>
     <div v-if="!inicio && !asignaturas && !naturales && !juego && felicidades" class="felicidades">
       <img :src="require(`@/assets/felicidades.jpg`)">
-      <button @click="goNaturales" class="asignaturas naturales" style="diplay: inline-block;">
+      <button
+        @click="goNaturales"
+        class="asignaturas naturales"
+        style="diplay:inline-block;
+        width:auto;
+        font-size:15px;
+        min-height:auto;
+        float:right;
+        margin:15px;"
+      >
         MENÚ
       </button>
     </div>
@@ -109,8 +133,9 @@ export default {
       felicidades: false,
       titulo: '',
       textoJuego: '',
-      tiempoEjercicio: 10,
-      tiempoPista: 6,
+      tiempoEjercicio: 3,
+      tiempoPista: 3,
+      tiempoSolucion: 0,
       contadorTema: 1,
       contadorJuego: 1,
       contadorFaseJuego: 1,
@@ -124,7 +149,7 @@ export default {
   },
   watch: {
     textoJuego() {
-      this.tiempoEjercicio = 10;
+      this.tiempoEjercicio = 3;
       const contadorInterval = setInterval(() => {
         this.tiempoEjercicio -= 1;
         if (this.tiempoEjercicio === 0 || this.solucion.length) {
@@ -134,7 +159,7 @@ export default {
     },
     tiempoEjercicio(valor) {
       if (valor < 1) {
-        this.tiempoPista = 10;
+        this.tiempoPista = 3;
         const contadorPistaInterval = setInterval(() => {
           this.tiempoPista -= 1;
           if (this.tiempoPista === 0 || this.solucion.length) {
@@ -173,6 +198,16 @@ export default {
       this.juego = false;
       this.asignaturas = false;
       this.felicidades = false;
+    },
+    iniciarTiempoSolucion() {
+      this.tiempoSolucion = 20;
+      const contadorSolucionInterval = setInterval(() => {
+        this.tiempoSolucion -= 1;
+        if (this.tiempoSolucion === 0) {
+          this.siguienteJuego();
+          clearInterval(contadorSolucionInterval);
+        }
+      }, 1000);
     },
     cambioTema(numero) {
       switch (numero) {
@@ -372,14 +407,15 @@ export default {
         case 5:
           this.textoJuego = 'QUINA PART DEL COS ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 6:
           this.textoJuego = '';
           this.solucion = 'LA PELL';
           this.numeroPista = '';
           this.imagen = 'piel.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -410,14 +446,15 @@ export default {
         case 5:
           this.textoJuego = 'QUINA PART DEL COS ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 6:
           this.textoJuego = '';
           this.solucion = 'EL COR';
           this.numeroPista = '';
           this.imagen = 'cor.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -448,14 +485,15 @@ export default {
         case 5:
           this.textoJuego = 'QUINA PART DEL COS ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 6:
           this.textoJuego = '';
           this.solucion = 'LA MONYICA';
           this.numeroPista = '';
           this.imagen = 'monyica.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -486,14 +524,15 @@ export default {
         case 5:
           this.textoJuego = 'QUÈ ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 6:
           this.textoJuego = '';
           this.solucion = "L'AIGUA";
           this.numeroPista = '';
           this.imagen = 'aigua.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -524,14 +563,15 @@ export default {
         case 5:
           this.textoJuego = 'QUÈ ESPORT ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 6:
           this.textoJuego = '';
           this.solucion = 'TENNIS';
           this.numeroPista = '';
           this.imagen = 'tennis.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -562,14 +602,15 @@ export default {
         case 5:
           this.textoJuego = 'QUÈ ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 6:
           this.textoJuego = '';
           this.solucion = 'RASPALL DE DENTS';
           this.numeroPista = '';
           this.imagen = 'raspall.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -610,14 +651,15 @@ export default {
         case 7:
           this.textoJuego = 'QUÈ ÉSSER VIU ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 8:
           this.textoJuego = '';
           this.solucion = "L'ELEFANT";
           this.numeroPista = '';
           this.imagen = 'elefant.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -658,14 +700,15 @@ export default {
         case 7:
           this.textoJuego = 'QUÈ ÉSSER VIU ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 8:
           this.textoJuego = '';
           this.solucion = 'PI';
           this.numeroPista = '';
           this.imagen = 'pi.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -696,14 +739,15 @@ export default {
         case 7:
           this.textoJuego = 'QUÈ ANIMAL ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 8:
           this.textoJuego = '';
           this.solucion = "L'ABELLA";
           this.numeroPista = '';
           this.imagen = 'abella.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -734,14 +778,15 @@ export default {
         case 7:
           this.textoJuego = 'QUÈ ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 8:
           this.textoJuego = '';
           this.solucion = 'EL COTÓ';
           this.numeroPista = '';
           this.imagen = 'coto.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -772,14 +817,15 @@ export default {
         case 7:
           this.textoJuego = 'QUÈ ACCIÓ ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 8:
           this.textoJuego = '';
           this.solucion = 'RECICLAR';
           this.numeroPista = '';
           this.imagen = 'reciclar.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -810,14 +856,15 @@ export default {
         case 7:
           this.textoJuego = 'QUÈ OBJECTE ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 8:
           this.textoJuego = '';
           this.solucion = 'LA CADIRA';
           this.numeroPista = '';
           this.imagen = 'cadira.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -848,14 +895,15 @@ export default {
         case 7:
           this.textoJuego = 'QUÈ FONT D´ENERGIA ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 8:
           this.textoJuego = '';
           this.solucion = 'EL SOL';
           this.numeroPista = '';
           this.imagen = 'sol.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -886,14 +934,15 @@ export default {
         case 7:
           this.textoJuego = 'QUÈ ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 8:
           this.textoJuego = '';
           this.solucion = 'LA NEU';
           this.numeroPista = '';
           this.imagen = 'neu.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -924,14 +973,15 @@ export default {
         case 7:
           this.textoJuego = 'QUÈ MÀQUINA ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 8:
           this.textoJuego = '';
           this.solucion = 'LA BICICLETA';
           this.numeroPista = '';
           this.imagen = 'bicicleta.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -962,14 +1012,15 @@ export default {
         case 7:
           this.textoJuego = 'QUÈ MÀQUINA ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 8:
           this.textoJuego = '';
           this.solucion = 'LA RENTADORA';
           this.numeroPista = '';
           this.imagen = 'rentadora.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -1000,14 +1051,15 @@ export default {
         case 7:
           this.textoJuego = 'QUÈ MÀQUINA ÉS?';
           this.pistaTexto = '';
-          this.numeroPista = 'A CONTINUACIÓ LA SOLUCIÓ';
+          this.numeroPista = '';
           break;
         case 8:
           this.textoJuego = '';
           this.solucion = 'EL ASSECADOR';
           this.numeroPista = '';
           this.imagen = 'assecador.jpg';
-          this.mensaje = 'SEGÜENT JOC!';
+          this.mensaje = '¡RESPIREM!';
+          this.iniciarTiempoSolucion();
           break;
         default:
           break;
@@ -1018,19 +1070,32 @@ export default {
 </script>
 
 <style lang="scss">
-
+html {
+  background: url('~@/assets/pattern.png') repeat;
+}
 #app {
   font-family: 'Chilanka', cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: url('~@/assets/pattern.png') repeat;
   text-align: center;
   color: #2c3e50;
-  margin: 20px auto;
+  margin: 0 auto;
   max-width: 500px;
   font-size: 25px;
 
-  img {
-    max-width: 500px;
+  img,
+  .img-solucion {
+    max-width: 300px;
+    -webkit-box-shadow: 10px 10px 36px 0px rgba(0,0,0,0.45);
+    -moz-box-shadow: 10px 10px 36px 0px rgba(0,0,0,0.45);
+    box-shadow: 10px 10px 36px 0px rgba(0,0,0,0.45);
+  }
+
+  .img-solucion {
+    border: 5px solid black;
+    border-radius: 15px;
+    margin-bottom: 50px;
   }
 
   .home,
@@ -1038,20 +1103,29 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 20px 0;
+    padding: 0 10px;
+  }
+
+  .tema-naturales,
+  .juego {
+    padding: 20px 10px;
   }
 
   p {
-    margin: 35px 0;
+    margin-bottom: 35px;
+    font-weight: 700;
     cursor: pointer;
     }
 
   .texto-juego {
-    color: forestgreen;
-    margin: 50px 0;
+    color: #538135;
+    margin-bottom: 35px;
   }
 
-  .progress-bar {
-    width: 400px;
+  .progress {
+    width: 300px;
+    margin: 0 auto;
   }
 
   .pista-bloque,
@@ -1061,15 +1135,20 @@ export default {
     align-items: center;
 
     .pista-texto {
-      border: 2px solid forestgreen;
+      position: relative;
+      border: 2px solid #538135;
       padding: 20px 35px;
       margin-bottom: 50px;
-      color: forestgreen;
+      color: #538135;
 
       .titulo {
-        background: palegreen;
-        display: inline;
+        position: absolute;
+        background: #D9ECA2;
+        width: 150px;
+        top: -25px;
+        left: calc(50% - 75px);
         padding: 5px 15px;
+        border: 1px solid #538135;
       }
 
       .texto {
@@ -1082,39 +1161,61 @@ export default {
 
   button {
     font-family: 'Chilanka', cursive;
-    border-radius: 5px;
-    background: pink;
-    border: 2px solid #D44697;
+    position: relative;
+    border-radius: 75px;
+    background: #F0C7F5;
+    border: 2px solid #D54798;
     padding: 25px;
-    color: #D44697;
+    color: #D54798;
     font-weight: 800;
     font-size: 30px;
-    margin-top: 50px;
-    min-width: 350px;
+    margin-bottom: 50px;
+    width: 300px;
+    min-height: 145px;
     cursor: pointer;
+    -webkit-box-shadow: 10px 10px 36px 0px rgba(0,0,0,0.45);
+    -moz-box-shadow: 10px 10px 36px 0px rgba(0,0,0,0.45);
+    box-shadow: 10px 10px 36px 0px rgba(0,0,0,0.45);
 
     &.asignaturas {
-      border-radius: 50%;
+      border-radius: 75px;
+
+      img {
+        position: absolute;
+        width: 50px;
+        top: 33px;
+        left: 125px;
+        opacity: .5;
+      }
 
       &.naturales {
-        background: palegreen;
-        border: 2px solid forestgreen;
-        color: forestgreen;
+        background: #D9ECA2;
+        border: 2px solid #538135;
+        color: #538135;
       }
       &.sociales {
-        background: lightblue;
-        border: 2px solid blue;
-        color: blue;
+        background: #B9F0F3;
+        border: 2px solid #2F5496;
+        color: #2F5496;
+        opacity: .5;
       }
       &.mates {
-        background: mediumpurple;
-        border: 2px solid indigo;
-        color: indigo;
+        background: #E5D4F6;
+        border: 2px solid #7030A0;
+        color: #7030A0;
+        opacity: .5;
       }
       &.caste {
-        background: tomato;
-        border: 2px solid darkred;
-        color: darkred;
+        background: #FD919B;
+        border: 2px solid #C00000;
+        color: #C00000;
+        opacity: .5;
+      }
+      &.ingles {
+        background: #F9D1E5;
+        border: 2px solid #EA54B8;
+        color: #EA54B8;
+        opacity: .5;
       }
     }
   }
