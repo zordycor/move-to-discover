@@ -80,7 +80,7 @@
           </b-progress-bar>
         </b-progress>
       </div>
-      <div v-if="tiempoEjercicio > 0 && !solucion.length" class="counter">
+      <div v-if="tiempoEjercicio > 0 && !solucion.length  && pistaTexto.length" class="counter">
         <b-progress
           :max="3"
           variant="success"
@@ -149,7 +149,7 @@ export default {
   },
   watch: {
     textoJuego() {
-      this.tiempoEjercicio = 3;
+      this.tiempoEjercicio = this.textoJuego.includes('?') ? 1 : 3;
       const contadorInterval = setInterval(() => {
         this.tiempoEjercicio -= 1;
         if (this.tiempoEjercicio === 0 || this.solucion.length) {
@@ -736,12 +736,12 @@ export default {
           this.numeroPista = 'Pista 4';
           this.pistaTexto = 'FABRICA LA MEL';
           break;
-        case 7:
+        case 5:
           this.textoJuego = 'QUÈ ANIMAL ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
           break;
-        case 8:
+        case 6:
           this.textoJuego = '';
           this.solucion = "L'ABELLA";
           this.numeroPista = '';
@@ -775,12 +775,12 @@ export default {
           this.numeroPista = 'Pista 4';
           this.pistaTexto = 'COMENÇA PER LA LLETRA “C”';
           break;
-        case 7:
+        case 5:
           this.textoJuego = 'QUÈ ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
           break;
-        case 8:
+        case 6:
           this.textoJuego = '';
           this.solucion = 'EL COTÓ';
           this.numeroPista = '';
@@ -814,12 +814,12 @@ export default {
           this.numeroPista = 'Pista 4';
           this.pistaTexto = 'PER FER AQUESTA ACCIÓ CAL TIRAR EL FEM A CONTENIDORS DE DIFERENTS COLORS';
           break;
-        case 7:
+        case 5:
           this.textoJuego = 'QUÈ ACCIÓ ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
           break;
-        case 8:
+        case 6:
           this.textoJuego = '';
           this.solucion = 'RECICLAR';
           this.numeroPista = '';
@@ -853,12 +853,12 @@ export default {
           this.numeroPista = 'Pista 4';
           this.pistaTexto = "CORRE! AGAFA UNS CALCETINS I LLANÇA´LS TAN LLUNY COM PUGUES, VÉS A PER ELLS I REPETEIX L'ACCIÓ TOTES LES VEGADES POSSIBLES.";
           break;
-        case 7:
+        case 5:
           this.textoJuego = 'QUÈ OBJECTE ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
           break;
-        case 8:
+        case 6:
           this.textoJuego = '';
           this.solucion = 'LA CADIRA';
           this.numeroPista = '';
@@ -892,12 +892,12 @@ export default {
           this.numeroPista = 'Pista 4';
           this.pistaTexto = 'ÉS RODÓ I TÉ RAIGS';
           break;
-        case 7:
+        case 5:
           this.textoJuego = 'QUÈ FONT D´ENERGIA ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
           break;
-        case 8:
+        case 6:
           this.textoJuego = '';
           this.solucion = 'EL SOL';
           this.numeroPista = '';
@@ -931,12 +931,12 @@ export default {
           this.numeroPista = 'Pista 4';
           this.pistaTexto = 'CAU QUAN FA FRED I ES POT FER NINOTS AMB ELLA';
           break;
-        case 7:
+        case 5:
           this.textoJuego = 'QUÈ ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
           break;
-        case 8:
+        case 6:
           this.textoJuego = '';
           this.solucion = 'LA NEU';
           this.numeroPista = '';
@@ -970,12 +970,12 @@ export default {
           this.numeroPista = 'Pista 4';
           this.pistaTexto = 'S´UTILITZA PER FER SPORT';
           break;
-        case 7:
+        case 5:
           this.textoJuego = 'QUÈ MÀQUINA ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
           break;
-        case 8:
+        case 6:
           this.textoJuego = '';
           this.solucion = 'LA BICICLETA';
           this.numeroPista = '';
@@ -1009,12 +1009,12 @@ export default {
           this.numeroPista = 'Pista 4';
           this.pistaTexto = 'SERVEIX PER NETEJAR LA ROBA';
           break;
-        case 7:
+        case 5:
           this.textoJuego = 'QUÈ MÀQUINA ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
           break;
-        case 8:
+        case 6:
           this.textoJuego = '';
           this.solucion = 'LA RENTADORA';
           this.numeroPista = '';
@@ -1048,12 +1048,12 @@ export default {
           this.numeroPista = 'Pista 4';
           this.pistaTexto = 'HO UTILITZEN ELS PERRUQUERS PER A SECAR CABELLS';
           break;
-        case 7:
+        case 5:
           this.textoJuego = 'QUÈ MÀQUINA ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
           break;
-        case 8:
+        case 6:
           this.textoJuego = '';
           this.solucion = 'EL ASSECADOR';
           this.numeroPista = '';
@@ -1081,7 +1081,6 @@ html {
   text-align: center;
   color: #2c3e50;
   margin: 0 auto;
-  max-width: 500px;
   font-size: 25px;
 
   img,
@@ -1137,6 +1136,7 @@ html {
     .pista-texto {
       position: relative;
       border: 2px solid #538135;
+      background: white;
       padding: 20px 35px;
       margin-bottom: 50px;
       color: #538135;
