@@ -1,7 +1,7 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9e0b36acfad6fe86e7ed",
-    "url": "/move-to-discover/css/app.0a5ca91a.css"
+    "revision": "c68fb4dcff4fd0f8b47b",
+    "url": "/move-to-discover/css/app.1316710a.css"
   },
   {
     "revision": "004080feb4a65a712472",
@@ -104,12 +104,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/move-to-discover/img/tennis.3606de5a.jpg"
   },
   {
-    "revision": "54ddce9d8fbc4a7d1ba1c0484ce813f7",
+    "revision": "f0829b7d39742112b949561ee0586ba3",
     "url": "/move-to-discover/index.html"
   },
   {
-    "revision": "9e0b36acfad6fe86e7ed",
-    "url": "/move-to-discover/js/app.c60dd14e.js"
+    "revision": "c68fb4dcff4fd0f8b47b",
+    "url": "/move-to-discover/js/app.ab6ceb2c.js"
   },
   {
     "revision": "004080feb4a65a712472",

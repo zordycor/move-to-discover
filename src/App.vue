@@ -68,34 +68,33 @@
           <div class="titulo">{{numeroPista}}</div>
           <div class="texto">{{pistaTexto}}</div>
         </div>
+        <span><strong>{{tiempoPista}}</strong></span>
         <b-progress
           v-if="!solucion.length"
-          :value="3 - tiempoPista"
-          :max="3"
-          variant="success"
+          :value="11 - tiempoPista"
+          :max="11"
           show-progress
         >
-          <b-progress-bar :value="3 - tiempoPista">
-            <span><strong>{{tiempoPista}}</strong></span>
+          <b-progress-bar :value="11 - tiempoPista">
+            <span></span>
           </b-progress-bar>
         </b-progress>
       </div>
       <div v-if="tiempoEjercicio > 0 && !solucion.length  && pistaTexto.length" class="counter">
+        <span><strong>{{tiempoEjercicio}}</strong></span>
         <b-progress
-          :max="3"
-          variant="success"
+          :max="61"
           show-progress
         >
-          <b-progress-bar class="progress-bar" :value="3 - tiempoEjercicio">
-            <span><strong>{{tiempoEjercicio}}</strong></span>
+          <b-progress-bar class="progress-bar" :value="61 - tiempoEjercicio">
+            <span></span>
           </b-progress-bar>
         </b-progress>
       </div>
       <p>{{mensaje}}</p>
       <b-progress
         v-if="solucion.length"
-        :max="20"
-        variant="success"
+        :max="21"
         show-progress
         >
           <b-progress-bar class="progress-bar" :value="20 - tiempoSolucion">
@@ -133,8 +132,8 @@ export default {
       felicidades: false,
       titulo: '',
       textoJuego: '',
-      tiempoEjercicio: 3,
-      tiempoPista: 3,
+      tiempoEjercicio: 60,
+      tiempoPista: 10,
       tiempoSolucion: 0,
       contadorTema: 1,
       contadorJuego: 1,
@@ -149,7 +148,7 @@ export default {
   },
   watch: {
     textoJuego() {
-      this.tiempoEjercicio = this.textoJuego.includes('?') ? 1 : 3;
+      this.tiempoEjercicio = this.textoJuego.includes('?') ? 1 : 60;
       const contadorInterval = setInterval(() => {
         this.tiempoEjercicio -= 1;
         if (this.tiempoEjercicio === 0 || this.solucion.length) {
@@ -159,7 +158,7 @@ export default {
     },
     tiempoEjercicio(valor) {
       if (valor < 1) {
-        this.tiempoPista = 3;
+        this.tiempoPista = 10;
         const contadorPistaInterval = setInterval(() => {
           this.tiempoPista -= 1;
           if (this.tiempoPista === 0 || this.solucion.length) {
@@ -1125,6 +1124,11 @@ html {
   .progress {
     width: 300px;
     margin: 0 auto;
+    background-color: #28a745 !important;
+
+    .progress-bar {
+      background-color: #e9ecef !important;
+    }
   }
 
   .pista-bloque,
