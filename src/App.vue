@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <audio ref="audioElm" loop :src="require('@/assets/song.mp3')"></audio>
+    <audio ref="audioElm" loop :src="require('@/assets/song.ogg')"></audio>
     <div v-if="inicio && !asignaturas && !naturales && !juego && !felicidades" class="home">
       <img :src="require('@/assets/logo.jpg')">
       <button @click="goAsignaturas" style="margin-top: 50px;">¡COMENCEM!</button>
