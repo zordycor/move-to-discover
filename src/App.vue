@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <audio ref="audioElm" src="@/assets/song.mp3"></audio>
     <div v-if="inicio && !asignaturas && !naturales && !juego && !felicidades" class="home">
       <img :src="require('@/assets/logo.jpg')">
       <button @click="goAsignaturas" style="margin-top: 50px;">¡COMENCEM!</button>
@@ -191,6 +192,7 @@ export default {
     goAsignaturas() {
       this.asignaturas = true;
       this.inicio = false;
+      this.$refs.audioElm.play();
     },
     goNaturales() {
       this.naturales = true;
