@@ -1,7 +1,7 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a1b4be0a371a293397d9",
-    "url": "/move-to-discover/css/app.1316710a.css"
+    "revision": "4ff3f689b8ef0ad34253",
+    "url": "/move-to-discover/css/app.5cf5e24f.css"
   },
   {
     "revision": "004080feb4a65a712472",
@@ -72,8 +72,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/move-to-discover/img/ninos.2f5a01bf.jpg"
   },
   {
-    "revision": "356557fb84199f3f313c5c82155eb992",
-    "url": "/move-to-discover/img/pattern.356557fb.png"
+    "revision": "455e50b7b3e488bd1737488a30276eb1",
+    "url": "/move-to-discover/img/pattern.455e50b7.png"
   },
   {
     "revision": "2ca187612ec4c3e0cd8c137c04632f68",
@@ -104,12 +104,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/move-to-discover/img/tennis.3606de5a.jpg"
   },
   {
-    "revision": "c422557b4808ad6cde3090db5767f9c2",
+    "revision": "a341777a579b24b31c5f968229174658",
     "url": "/move-to-discover/index.html"
   },
   {
-    "revision": "a1b4be0a371a293397d9",
-    "url": "/move-to-discover/js/app.9859b21a.js"
+    "revision": "4ff3f689b8ef0ad34253",
+    "url": "/move-to-discover/js/app.89bd1147.js"
   },
   {
     "revision": "004080feb4a65a712472",
@@ -120,8 +120,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/move-to-discover/manifest.json"
   },
   {
-    "revision": "318bfbd98997cb92fc7a41dfdfe0f71b",
-    "url": "/move-to-discover/media/song.318bfbd9.mp3"
+    "revision": "eade04f43b7062811dfea3665bd8e82c",
+    "url": "/move-to-discover/media/song.eade04f4.mp3"
   },
   {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
