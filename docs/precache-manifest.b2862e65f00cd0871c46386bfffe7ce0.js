@@ -1,7 +1,7 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4ff3f689b8ef0ad34253",
-    "url": "/move-to-discover/css/app.5cf5e24f.css"
+    "revision": "479a47084e2a83e3e822",
+    "url": "/move-to-discover/css/app.0d85e8a1.css"
   },
   {
     "revision": "004080feb4a65a712472",
@@ -104,12 +104,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/move-to-discover/img/tennis.3606de5a.jpg"
   },
   {
-    "revision": "a341777a579b24b31c5f968229174658",
+    "revision": "3ad309d40500fc88eedf0af54c9d4062",
     "url": "/move-to-discover/index.html"
   },
   {
-    "revision": "4ff3f689b8ef0ad34253",
-    "url": "/move-to-discover/js/app.89bd1147.js"
+    "revision": "479a47084e2a83e3e822",
+    "url": "/move-to-discover/js/app.04bfbcd6.js"
   },
   {
     "revision": "004080feb4a65a712472",
@@ -118,10 +118,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "8053c376f8b79799be8f13c1cb8d7f0d",
     "url": "/move-to-discover/manifest.json"
-  },
-  {
-    "revision": "eade04f43b7062811dfea3665bd8e82c",
-    "url": "/move-to-discover/media/song.eade04f4.mp3"
   },
   {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",

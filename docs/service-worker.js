@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/move-to-discover/precache-manifest.3bbdf9eab04dd512f42de19fdb45536a.js"
+  "/move-to-discover/precache-manifest.b2862e65f00cd0871c46386bfffe7ce0.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "app-lucia"});

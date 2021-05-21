@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <audio ref="audioElm" loop src="https://soundcloud.com/borja-rodrigo/song"></audio>
     <div v-if="inicio && !asignaturas && !naturales && !juego && !felicidades" class="home">
       <img :src="require('@/assets/logo.jpg')">
       <button @click="goAsignaturas" style="margin-top: 50px;">¡COMENCEM!</button>
@@ -64,6 +63,7 @@
         class="img-solucion"
       >
       <p v-if="textoJuego" class="texto-juego">{{textoJuego}}</p>
+      <p v-if="recopilacion.length" class="texto-juego recopilacion" v-html="recopilacion"></p>
       <div v-if="tiempoEjercicio < 1" class="pista-bloque">
         <div v-if="numeroPista.length" class="pista-texto">
           <div class="titulo">{{numeroPista}}</div>
@@ -72,33 +72,41 @@
         <span><strong>{{tiempoPista}}</strong></span>
         <b-progress
           v-if="!solucion.length"
-          :value="11 - tiempoPista"
-          :max="11"
+          :value="21 - tiempoPista"
+          :max="21"
           show-progress
         >
-          <b-progress-bar :value="11 - tiempoPista">
+          <b-progress-bar :value="21 - tiempoPista">
             <span></span>
           </b-progress-bar>
         </b-progress>
       </div>
       <div v-if="tiempoEjercicio > 0 && !solucion.length  && pistaTexto.length" class="counter">
-        <span><strong>{{tiempoEjercicio}}</strong></span>
+        <span v-if="activarEjercicio"><strong>{{tiempoEjercicio}}</strong></span>
+        <button
+          v-if="!activarEjercicio"
+          class="asignaturas naturales"
+          @click="startTime"
+        >
+          COMENÇAR
+        </button>
         <b-progress
+          v-else
           :max="61"
           show-progress
         >
-          <b-progress-bar class="progress-bar" :value="61 - tiempoEjercicio">
+          <b-progress-bar class="progress-bar" :value="6 - tiempoEjercicio">
             <span></span>
           </b-progress-bar>
         </b-progress>
       </div>
       <p>{{mensaje}}</p>
       <b-progress
-        v-if="solucion.length"
+        v-if="solucion.length || recopilacion.length"
         :max="21"
         show-progress
         >
-          <b-progress-bar class="progress-bar" :value="20 - tiempoSolucion">
+          <b-progress-bar class="progress-bar" :value="2 - tiempoSolucion">
             <span><strong>{{tiempoSolucion}}</strong></span>
           </b-progress-bar>
         </b-progress>
@@ -133,12 +141,14 @@ export default {
       felicidades: false,
       titulo: '',
       textoJuego: '',
+      activarEjercicio: false,
       tiempoEjercicio: 60,
-      tiempoPista: 10,
+      tiempoPista: 20,
       tiempoSolucion: 0,
       contadorTema: 1,
       contadorJuego: 1,
       contadorFaseJuego: 1,
+      recopilacion: '',
       numeroPista: 'Pista 1',
       pistaTexto: '',
       solucion: '',
@@ -148,18 +158,9 @@ export default {
     };
   },
   watch: {
-    textoJuego() {
-      this.tiempoEjercicio = this.textoJuego.includes('?') ? 1 : 60;
-      const contadorInterval = setInterval(() => {
-        this.tiempoEjercicio -= 1;
-        if (this.tiempoEjercicio === 0 || this.solucion.length) {
-          clearInterval(contadorInterval);
-        }
-      }, 1000);
-    },
     tiempoEjercicio(valor) {
       if (valor < 1) {
-        this.tiempoPista = 10;
+        this.tiempoPista = 20;
         const contadorPistaInterval = setInterval(() => {
           this.tiempoPista -= 1;
           if (this.tiempoPista === 0 || this.solucion.length) {
@@ -170,6 +171,7 @@ export default {
     },
     tiempoPista(valor) {
       if (valor < 1) {
+        this.activarEjercicio = false;
         this.contadorFaseJuego += 1;
         this[this.cambioJuegoTemas[this.contadorTema]](this.contadorJuego, this.contadorFaseJuego);
       }
@@ -189,11 +191,18 @@ export default {
     },
   },
   methods: {
+    startTime() {
+      this.activarEjercicio = true;
+      const contadorInterval = setInterval(() => {
+        this.tiempoEjercicio -= 1;
+        if (this.tiempoEjercicio === 0 || this.solucion.length) {
+          clearInterval(contadorInterval);
+        }
+      }, 1000);
+    },
     goAsignaturas() {
       this.asignaturas = true;
       this.inicio = false;
-
-      this.$refs.audioElm.play();
     },
     goNaturales() {
       this.naturales = true;
@@ -206,10 +215,19 @@ export default {
       const contadorSolucionInterval = setInterval(() => {
         this.tiempoSolucion -= 1;
         if (this.tiempoSolucion === 0) {
-          this.siguienteJuego();
+          if (this.recopilacion.length) {
+            this.goSolucion();
+          } else {
+            this.siguienteJuego();
+          }
           clearInterval(contadorSolucionInterval);
         }
       }, 1000);
+    },
+    goSolucion() {
+      this.activarEjercicio = false;
+      this.contadorFaseJuego += 1;
+      this[this.cambioJuegoTemas[this.contadorTema]](this.contadorJuego, this.contadorFaseJuego);
     },
     cambioTema(numero) {
       switch (numero) {
@@ -238,6 +256,7 @@ export default {
 
     cambioJuegoCos(numero = 1, faseJuego = 1) {
       this.contadorTema = 1;
+      this.tiempoEjercicio = 60;
       this.titulo = '1. EL NOSTRE COS';
       this.contadorJuego = numero;
       this.contadorFaseJuego = faseJuego;
@@ -261,6 +280,7 @@ export default {
     },
     cambioJuegoVida(numero = 1, faseJuego = 1) {
       this.contadorTema = 2;
+      this.tiempoEjercicio = 60;
       this.titulo = '2. VISCA LA VIDA SALUDABLE';
       this.contadorJuego = numero;
       this.contadorFaseJuego = faseJuego;
@@ -284,6 +304,7 @@ export default {
     },
     cambioJuegoEsser(numero = 1, faseJuego = 1) {
       this.contadorTema = 3;
+      this.tiempoEjercicio = 60;
       this.titulo = '3. OBSERVEM ELS ÉSSERS VIUS';
       this.contadorJuego = numero;
       this.contadorFaseJuego = faseJuego;
@@ -304,6 +325,7 @@ export default {
     },
     cambioJuegoNatural(numero = 1, faseJuego = 1) {
       this.contadorTema = 4;
+      this.tiempoEjercicio = 60;
       this.titulo = '4. LA NATURALESSA';
       this.contadorJuego = numero;
       this.contadorFaseJuego = faseJuego;
@@ -327,6 +349,7 @@ export default {
     },
     cambioJuegoMaterial(numero = 1, faseJuego = 1) {
       this.contadorTema = 5;
+      this.tiempoEjercicio = 60;
       this.titulo = '5. AMB MATERIALS I AMB ENERGIA!';
       this.contadorJuego = numero;
       this.contadorFaseJuego = faseJuego;
@@ -350,6 +373,7 @@ export default {
     },
     cambioJuegoMaquina(numero = 1, faseJuego = 1) {
       this.contadorTema = 6;
+      this.tiempoEjercicio = 60;
       this.titulo = '6. QUINA MÁQUINA!';
       this.contadorJuego = numero;
       this.contadorFaseJuego = faseJuego;
@@ -410,6 +434,8 @@ export default {
           this.textoJuego = 'QUINA PART DEL COS ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<b>RECOPILACIÓ DE PISTES<b><br></br> ÉS UNA PART DEL COS</br> ESTÀ PER TOT EL COS</br> AMB ELLA S´UTILITZA EL SENTIT DEL TACTE</br> AMB ELLA SENTIM EL QUE TOQUEM';
+          this.iniciarTiempoSolucion();
           break;
         case 6:
           this.textoJuego = '';
@@ -417,6 +443,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'piel.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -449,6 +476,8 @@ export default {
           this.textoJuego = 'QUINA PART DEL COS ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<strong>RECOPILACIÓ DE PISTES<strong><br></br> ES TROBA DINS DEL COS</br> ÉS UN ÒRGAN</br> ES TROBA PER LA PART DEL PIT</br> MOU LA SANG QUE CIRCULA PEL COS';
+          this.iniciarTiempoSolucion();
           break;
         case 6:
           this.textoJuego = '';
@@ -456,6 +485,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'cor.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -488,6 +518,8 @@ export default {
           this.textoJuego = 'QUINA PART DEL COS ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<strong>RECOPILACIÓ DE PISTES<strong><br></br> ÉS UNA ARTICULACIÓ</br> COMENÇA PER LA LLETRA “M”</br> UNEIX EL BRAÇ AMB LA MÀ</br> GRÀCIES A ELLA PODEM SALUDAR';
+          this.iniciarTiempoSolucion();
           break;
         case 6:
           this.textoJuego = '';
@@ -495,6 +527,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'monyica.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -527,6 +560,8 @@ export default {
           this.textoJuego = 'QUÈ ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<strong>RECOPILACIÓ DE PISTES<strong><br></br> ÉS PART DE LA NOSTRA DIETA</br> ÉS NECESSÀRIA PER A TINDRE UNA VIDA SALUDABLE</br> ES PREN EN ELS CINC MENJARS DEL DIA</br> TAMBÉ LA BEVEM QUAN FEM ESPORT I TENIM CALOR';
+          this.iniciarTiempoSolucion();
           break;
         case 6:
           this.textoJuego = '';
@@ -534,6 +569,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'aigua.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -566,6 +602,8 @@ export default {
           this.textoJuego = 'QUÈ ESPORT ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<strong>RECOPILACIÓ DE PISTES<strong><br></br> ÉS UN ESPORT</br> S´UTILITZA UNA PILOTA</br> ES JUGA EN PARELLES</br> S´UTILITZA UNA RAQUETA';
+          this.iniciarTiempoSolucion();
           break;
         case 6:
           this.textoJuego = '';
@@ -573,6 +611,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'tennis.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -605,6 +644,8 @@ export default {
           this.textoJuego = 'QUÈ ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<strong>RECOPILACIÓ DE PISTES<strong><br></br> ÉS NECESSARI PER A TINDRE UNA BONA SALUT</br> AMB ELL ENS NETEGEM UNA PART DEL NOSTRE COS</br> HO UTILITZEM DESPRÉS DE CADA MENJAR</br> ES POT UTILITZAR AMB PASTA DE DENTS';
+          this.iniciarTiempoSolucion();
           break;
         case 6:
           this.textoJuego = '';
@@ -612,6 +653,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'raspall.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -654,6 +696,8 @@ export default {
           this.textoJuego = 'QUÈ ÉSSER VIU ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<strong>RECOPILACIÓ DE PISTES<strong><br></br> ÉS UN ÉSSER VIU</br> ÉS UN ANIMAL</br> ÉS UN ANIMAL VERTEBRAT</br> ÉS UN MAMÍFER</br> ÉS HERBÍVOR</br>ÉS GRAN, TÉ TROMPA I VIU A LA SELVA';
+          this.iniciarTiempoSolucion();
           break;
         case 8:
           this.textoJuego = '';
@@ -661,6 +705,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'elefant.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -703,6 +748,8 @@ export default {
           this.textoJuego = 'QUÈ ÉSSER VIU ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<strong>RECOPILACIÓ DE PISTES<strong><br></br> ÉS UN ÉSSER VIU</br> ÉS UNA PLANTA</br> ÉS GRAN, DE TIJA AMPLA I DURA</br> NO TÉ FLORS</br> SÍ TÉ FRUITS</br>TÉ PINYES I COMEÇA PER LA LLETRA “P”';
+          this.iniciarTiempoSolucion();
           break;
         case 8:
           this.textoJuego = '';
@@ -710,6 +757,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'pi.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -742,6 +790,8 @@ export default {
           this.textoJuego = 'QUÈ ANIMAL ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<strong>RECOPILACIÓ DE PISTES<strong><br></br> ÉS UN ANIMAL SALVATGE</br> TÉ ALES I VOLA</br> VIUEN EN RUSCOS</br> FABRICA LA MEL';
+          this.iniciarTiempoSolucion();
           break;
         case 6:
           this.textoJuego = '';
@@ -749,6 +799,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'abella.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -781,6 +832,8 @@ export default {
           this.textoJuego = 'QUÈ ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<strong>RECOPILACIÓ DE PISTES<strong><br></br> S´OBTÉ DE LES PLANTES</br> SERVEIX PER FER ROBA</br> ÉS DE COLR BLANC</br> COMENÇA PER LA LLETRA “C”';
+          this.iniciarTiempoSolucion();
           break;
         case 6:
           this.textoJuego = '';
@@ -788,6 +841,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'coto.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -820,6 +874,8 @@ export default {
           this.textoJuego = 'QUÈ ACCIÓ ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<strong>RECOPILACIÓ DE PISTES<strong><br></br> ÉS UNA ACCIÓ MOLT IMPORTANT</br> SERVEIX PER CUIDAR EL MEDI AMBIENT</br> GRÀCIES A AQUESTA ACCIÓ ES PODEN REUTILITZAR OBJECTES</br> PER FER AQUESTA ACCIÓ CAL TIRAR EL FEM A CONTENIDORS DE DIFERENTS COLORS';
+          this.iniciarTiempoSolucion();
           break;
         case 6:
           this.textoJuego = '';
@@ -827,6 +883,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'reciclar.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -859,6 +916,8 @@ export default {
           this.textoJuego = 'QUÈ OBJECTE ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<strong>RECOPILACIÓ DE PISTES<strong><br></br> ÉS UN OBJECTE</br> ESTÀ FET AMB UN MATERIAL NATURAL: FUSTA</br> ES DURA I RÍGIDA</br> TÉ 4 POTES Y SERVEIX PER A SEURE';
+          this.iniciarTiempoSolucion();
           break;
         case 6:
           this.textoJuego = '';
@@ -866,6 +925,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'cadira.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -898,6 +958,8 @@ export default {
           this.textoJuego = 'QUÈ FONT D´ENERGIA ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<strong>RECOPILACIÓ DE PISTES<strong><br></br> ÉS UNA FONT D´ENERGIA</br> ÉS UNA FONT D´ENERGIA RENOVABLE</br> DÓNA LLUM I CALOR</br>ÉS RODÓ I TÉ RAIGS';
+          this.iniciarTiempoSolucion();
           break;
         case 6:
           this.textoJuego = '';
@@ -905,6 +967,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'sol.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -937,6 +1000,8 @@ export default {
           this.textoJuego = 'QUÈ ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<strong>RECOPILACIÓ DE PISTES<strong><br></br> ESTÀ FORMADA PER AIGUA</br> ES CREA PER UN CANVI D´ESTAT</br> ÉS SÒLIDA</br>CAU QUAN FA FRED I ES POT FER NINOTS AMB ELLA';
+          this.iniciarTiempoSolucion();
           break;
         case 6:
           this.textoJuego = '';
@@ -944,6 +1009,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'neu.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -976,6 +1042,8 @@ export default {
           this.textoJuego = 'QUÈ MÀQUINA ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<strong>RECOPILACIÓ DE PISTES<strong><br></br> ÉS UNA MÀQUINA COMPOSTA</br> FUNCIONA AMB FORÇA HUMANA</br> TÉ DUES RODES</br>S´UTILITZA PER FER SPORT';
+          this.iniciarTiempoSolucion();
           break;
         case 6:
           this.textoJuego = '';
@@ -983,6 +1051,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'bicicleta.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -1015,6 +1084,8 @@ export default {
           this.textoJuego = 'QUÈ MÀQUINA ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<strong>RECOPILACIÓ DE PISTES<strong><br></br> ÉS UNA MÀQUINA COMPOSTA</br> FUNCIONA AMB ENERGIA ELÈCTRICA</br> ES GRAN</br>SERVEIX PER NETEJAR LA ROBA';
+          this.iniciarTiempoSolucion();
           break;
         case 6:
           this.textoJuego = '';
@@ -1022,6 +1093,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'rentadora.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -1054,6 +1126,8 @@ export default {
           this.textoJuego = 'QUÈ MÀQUINA ÉS?';
           this.pistaTexto = '';
           this.numeroPista = '';
+          this.recopilacion = '<strong>RECOPILACIÓ DE PISTES<strong><br></br> ÉS UNA MÀQUINA COMPOSTA</br> FUNCIONA AMB ENERGIA ELÈCTRICA</br> DÓNA CALOR</br>HO UTILITZEN ELS PERRUQUERS PER A SECAR CABELLS';
+          this.iniciarTiempoSolucion();
           break;
         case 6:
           this.textoJuego = '';
@@ -1061,6 +1135,7 @@ export default {
           this.numeroPista = '';
           this.imagen = 'assecador.jpg';
           this.mensaje = '¡RESPIREM!';
+          this.recopilacion = '';
           this.iniciarTiempoSolucion();
           break;
         default:
@@ -1113,6 +1188,12 @@ html {
     padding: 20px 10px;
   }
 
+  .juego {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
   p {
     margin-bottom: 35px;
     font-weight: 700;
@@ -1122,6 +1203,13 @@ html {
   .texto-juego {
     color: #538135;
     margin-bottom: 35px;
+  }
+
+  .recopilacion {
+    background: white;
+    padding: 20px;
+    border: 5px solid #538135;
+    font-weight: 100;
   }
 
   .progress {
