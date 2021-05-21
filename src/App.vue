@@ -14,7 +14,7 @@
         <img :src="require('@/assets/candado.svg')">
       </button>
       <button class="asignaturas mates">
-        MATEMÁTIQUES
+        MATEMÀTIQUES
         <img :src="require('@/assets/candado.svg')">
       </button>
       <button class="asignaturas caste">
@@ -22,7 +22,7 @@
         <img :src="require('@/assets/candado.svg')">
       </button>
       <button class="asignaturas ingles">
-        INGLÉS
+        ANGLÉS
         <img :src="require('@/assets/candado.svg')">
       </button>
     </div>
@@ -95,7 +95,7 @@
           :max="61"
           show-progress
         >
-          <b-progress-bar class="progress-bar" :value="6 - tiempoEjercicio">
+          <b-progress-bar class="progress-bar" :value="61 - tiempoEjercicio">
             <span></span>
           </b-progress-bar>
         </b-progress>
@@ -106,7 +106,7 @@
         :max="21"
         show-progress
         >
-          <b-progress-bar class="progress-bar" :value="2 - tiempoSolucion">
+          <b-progress-bar class="progress-bar" :value="21 - tiempoSolucion">
             <span><strong>{{tiempoSolucion}}</strong></span>
           </b-progress-bar>
         </b-progress>
