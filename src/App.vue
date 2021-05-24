@@ -2,7 +2,7 @@
   <div id="app">
     <div v-if="inicio && !asignaturas && !naturales && !juego && !felicidades" class="home">
       <img :src="require('@/assets/logo.jpg')">
-      <button @click="goAsignaturas" style="margin-top: 50px;">¡COMENCEM!</button>
+      <button @click="goAsignaturas" style="margin-top: 50px;">COMENCEM!</button>
     </div>
     <div v-if="!inicio && asignaturas && !naturales && !juego" class="lista-asignaturas">
       <img :src="require('@/assets/logo.jpg')">
